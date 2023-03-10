@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
-function App() {
+import MovieDetail from "./components/MovieDetail/MovieDetail";
+import Movies from "./components/Movies/Movies";
+
+const App = () => {
+  const { pathname } = useLocation();
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      {/* React router main paths */}
+      <Route exact path='/home' element={<Movies />} />
+      <Route
+        path={`/movie/*`}
+        element={<MovieDetail movieId={pathname.split("/")[2]} />}
+      />
+      {/* If entered an invalid path, navigate to '/home' route */}
+      <Route path='*' element={<Navigate to='/home' />} />
+    </Routes>
   );
-}
+};
 
 export default App;
